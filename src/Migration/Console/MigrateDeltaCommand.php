@@ -45,7 +45,7 @@ class MigrateDeltaCommand extends AbstractMigrateCommand
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName($this->name)
             ->setDescription('Migrate the data is added into Magento after the main migration');
@@ -55,7 +55,7 @@ class MigrateDeltaCommand extends AbstractMigrateCommand
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->deltaMode->run();
         return Command::SUCCESS;

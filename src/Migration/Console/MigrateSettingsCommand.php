@@ -45,7 +45,7 @@ class MigrateSettingsCommand extends AbstractMigrateCommand
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName($this->name)
             ->setDescription('Migrate system configuration');
