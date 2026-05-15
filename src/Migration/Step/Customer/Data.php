@@ -174,7 +174,7 @@ class Data extends \Migration\Step\DatabaseStage implements StageInterface
      */
     private function transformDocumentRecords(
         $sourceDocName,
-        array $attributesToSkip = null
+        array $attributesToSkip = []
     ) {
         $sourceEntityDocuments = array_keys($this->readerGroups->getGroup('source_entity_documents'));
         $sourceDocument = $this->source->getDocument($sourceDocName);
@@ -244,7 +244,7 @@ class Data extends \Migration\Step\DatabaseStage implements StageInterface
             return false;
         };
 
-        if ($attributesToSkip !== null
+        if (!empty($attributesToSkip)
             && isset($recordData['attribute_id'])
             && isset($attributesToSkip[$recordData['attribute_id']])
             && !$passwordHashSha512($recordData, $attributesToSkip)
