@@ -49,7 +49,7 @@ class DestinationTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $adapterConfigs = ['resourceType' => 'destination'];
         $this->config = $this->createPartialMock(

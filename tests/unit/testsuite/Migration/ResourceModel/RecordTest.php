@@ -20,7 +20,7 @@ class RecordTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->structure = $this->createMock(\Migration\ResourceModel\Structure::class);
         $this->structure->expects($this->any())->method('hasField')->willReturnCallback(function ($fieldName) {

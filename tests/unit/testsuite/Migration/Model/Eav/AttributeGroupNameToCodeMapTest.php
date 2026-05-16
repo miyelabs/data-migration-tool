@@ -25,7 +25,7 @@ class AttributeGroupNameToCodeMapTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translitFilter = $this->getMockBuilder(\Magento\Framework\Filter\Translit::class)
             ->disableOriginalConstructor()

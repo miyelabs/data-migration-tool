@@ -28,7 +28,7 @@ class AttributeGroupNamesTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->helper = $this->getMockBuilder(\Migration\Step\Eav\Helper::class)
             ->disableOriginalConstructor()

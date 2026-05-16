@@ -20,7 +20,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $document1 = $this->createMock(\Migration\ResourceModel\Document::class);
         $document1->expects($this->any())->method('getName')->will($this->returnValue('Doc1'));

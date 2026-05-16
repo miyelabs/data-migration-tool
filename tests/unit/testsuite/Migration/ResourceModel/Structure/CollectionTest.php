@@ -20,7 +20,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $structure1 = $this->createMock(\Migration\ResourceModel\Structure::class);
         $structure2 = $this->createMock(\Migration\ResourceModel\Structure::class);

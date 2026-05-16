@@ -19,7 +19,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
      * @throws Exception
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $validationState = $this->getMockBuilder(\Magento\Framework\App\Arguments\ValidationState::class)
             ->disableOriginalConstructor()

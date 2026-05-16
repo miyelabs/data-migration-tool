@@ -21,7 +21,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         $this->pdoMysql = $this->getMockBuilder(\Magento\Framework\DB\Adapter\Pdo\Mysql::class)
