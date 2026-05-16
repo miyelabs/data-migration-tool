@@ -132,6 +132,33 @@ class Data
     }
 
     /**
+     * Get list of attribute sets for a given entity type
+     *
+     * @param string $mode
+     * @param string $type
+     * @param string $entityTypeCode
+     * @return array
+     */
+    public function getEntityAttributeSets(
+        $mode = self::ATTRIBUTE_SETS_ALL,
+        $type = self::TYPE_SOURCE,
+        $entityTypeCode = self::ENTITY_TYPE_PRODUCT_CODE
+    ) {
+        $entityTypeId = $this->getEntityTypeIdByCode($entityTypeCode, $type);
+        $attributeSets = [];
+        foreach ($this->initialData->getAttributeSets($type) as $attributeSet) {
+            if ($entityTypeId == $attributeSet['entity_type_id']
+                && (($mode == self::ATTRIBUTE_SETS_DEFAULT && $attributeSet['attribute_set_name'] == 'Default')
+                    || ($mode == self::ATTRIBUTE_SETS_NONE_DEFAULT && $attributeSet['attribute_set_name'] != 'Default')
+                    || ($mode == self::ATTRIBUTE_SETS_ALL))
+            ) {
+                $attributeSets[$attributeSet['attribute_set_id']] = $attributeSet;
+            }
+        }
+        return $attributeSets;
+    }
+
+    /**
      * Return entity type id by its code
      *
      * @param string $code
@@ -200,6 +227,36 @@ class Data
         $attributeGroups = [];
         foreach ($this->initialData->getAttributeGroups(self::TYPE_DEST) as $attributeGroup) {
             if ($attributeGroup['attribute_set_id'] == $defaultProductAttributeSetId) {
+                $attributeGroup['attribute_group_id'] = null;
+                $attributeGroup['attribute_set_id'] = null;
+                $attributeGroups[] = $attributeGroup;
+            }
+        }
+        return $attributeGroups;
+    }
+
+    /**
+     * Get default attribute groups for any entity type
+     *
+     * @param string $entityTypeCode
+     * @return array
+     */
+    public function getDefaultEntityAttributeGroups($entityTypeCode = self::ENTITY_TYPE_PRODUCT_CODE)
+    {
+        $defaultAttributeSet = $this->getEntityAttributeSets(
+            self::ATTRIBUTE_SETS_DEFAULT,
+            self::TYPE_DEST,
+            $entityTypeCode
+        );
+
+        if (!$defaultAttributeSet) {
+            return [];
+        }
+
+        $defaultAttributeSetId = array_shift($defaultAttributeSet)['attribute_set_id'];
+        $attributeGroups = [];
+        foreach ($this->initialData->getAttributeGroups(self::TYPE_DEST) as $attributeGroup) {
+            if ($attributeGroup['attribute_set_id'] == $defaultAttributeSetId) {
                 $attributeGroup['attribute_group_id'] = null;
                 $attributeGroup['attribute_set_id'] = null;
                 $attributeGroups[] = $attributeGroup;
@@ -298,16 +355,8 @@ class Data
         $sourceAttributeGroupNames = [];
         $entityTypeCode = $this->getEntityTypeCodeByAttributeSetId($attributeSetId);
         $excludedAttributeGroups = $this->excludedAttributeGroups[$entityTypeCode] ?? [];
-        if ($entityTypeCode == self::ENTITY_TYPE_PRODUCT_CODE) {
-            foreach ($this->getDefaultProductAttributeGroups() as $attributeGroup) {
-                $defaultAttributeGroupNames[] = $attributeGroup['attribute_group_name'];
-            }
-        } else {
-            foreach ($this->initialData->getAttributeGroups(self::TYPE_DEST) as $attributeGroup) {
-                if ($attributeGroup['attribute_set_id'] == $attributeSetId) {
-                    $defaultAttributeGroupNames[] = $attributeGroup['attribute_group_name'];
-                }
-            }
+        foreach ($this->getDefaultEntityAttributeGroups($entityTypeCode) as $attributeGroup) {
+            $defaultAttributeGroupNames[] = $attributeGroup['attribute_group_name'];
         }
         foreach ($this->initialData->getAttributeGroups(self::TYPE_SOURCE) as $attributeGroup) {
             if ($attributeGroup['attribute_set_id'] == $attributeSetId) {
