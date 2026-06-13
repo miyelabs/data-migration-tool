@@ -62,14 +62,12 @@ class DataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = $this->getMockBuilder(\Migration\Config::class)->disableOriginalConstructor()
             ->setMethods(['getSource'])
             ->getMock();
-        $this->config->expects($this->any())->method('getSource')->will(
-            $this->returnValue(['type' => DatabaseStage::SOURCE_TYPE])
-        );
+        $this->config->expects($this->any())->method('getSource')->willReturn(['type' => DatabaseStage::SOURCE_TYPE]);
 
         $this->source = $this->getMockBuilder(\Migration\ResourceModel\Source::class)->disableOriginalConstructor()
             ->setMethods(['getDocument', 'getRecordsCount', 'getAdapter', 'addDocumentPrefix', 'getRecords'])
@@ -154,7 +152,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
         ) ;
         $sourceTable = $this->getMockBuilder(\Magento\Framework\DB\Ddl\Table::class)->disableOriginalConstructor()
             ->setMethods(['getColumns'])->getMock();
-        $sourceTable->expects($this->any())->method('getColumns')->will($this->returnValue([['asdf']]));
+        $sourceTable->expects($this->any())->method('getColumns')->willReturn([['asdf']]);
 
         $sourceAdapter = $this->getMockBuilder(\Migration\ResourceModel\Adapter\Mysql::class)
             ->disableOriginalConstructor()
@@ -162,7 +160,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $sourceAdapter->expects($this->any())->method('getTableDdlCopy')
             ->with('source_suffix_source_document_1', 'destination_suffix_destination_document_1')
-            ->will($this->returnValue($sourceTable));
+            ->willReturn($sourceTable);
 
         $destinationTable = $this->getMockBuilder(\Magento\Framework\DB\Ddl\Table::class)->disableOriginalConstructor()
             ->setMethods(['setColumn'])->getMock();
@@ -173,11 +171,11 @@ class DataTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $destAdapter->expects($this->any())->method('getTableDdlCopy')
             ->with('destination_suffix_destination_document_1', 'destination_suffix_destination_document_1')
-            ->will($this->returnValue($destinationTable));
+            ->willReturn($destinationTable);
         $destAdapter->expects($this->any())->method('createTableByDdl')->with($destinationTable);
 
-        $this->source->expects($this->once())->method('getAdapter')->will($this->returnValue($sourceAdapter));
-        $this->destination->expects($this->once())->method('getAdapter')->will($this->returnValue($destAdapter));
+        $this->source->expects($this->once())->method('getAdapter')->willReturn($sourceAdapter);
+        $this->destination->expects($this->once())->method('getAdapter')->willReturn($destAdapter);
 
         $recordsCollection = $this->getMockBuilder(\Migration\ResourceModel\Record\Collection::class)
             ->disableOriginalConstructor()
@@ -187,25 +185,25 @@ class DataTest extends \PHPUnit\Framework\TestCase
         $destDocument = $this->getMockBuilder(\Migration\ResourceModel\Document::class)->disableOriginalConstructor()
             ->setMethods(['getRecords', 'getName'])
             ->getMock();
-        $destDocument->expects($this->any())->method('getName')->will($this->returnValue('some_name'));
-        $destDocument->expects($this->any())->method('getRecords')->will($this->returnValue($recordsCollection));
+        $destDocument->expects($this->any())->method('getName')->willReturn('some_name');
+        $destDocument->expects($this->any())->method('getRecords')->willReturn($recordsCollection);
 
         $record = $this->getMockBuilder(\Migration\ResourceModel\Record::class)->disableOriginalConstructor()
             ->setMethods(['setData'])
             ->getMock();
         $record->expects($this->once())->method('setData')->with(['field_1' => 1, 'field_2' => 2]);
         $this->recordFactory->expects($this->any())->method('create')->with(['document' => $destDocument])
-            ->will($this->returnValue($record));
+            ->willReturn($record);
         $recordsCollection->expects($this->any())->method('addRecord')->with($record);
 
-        $this->destination->expects($this->any())->method('getDocument')->will($this->returnValue($destDocument));
+        $this->destination->expects($this->any())->method('getDocument')->willReturn($destDocument);
         $this->logger->expects($this->any())->method('debug')->with('migrating', ['table' => 'source_document_1'])
             ->willReturn(true);
-        $this->source->expects($this->any())->method('getRecords')->will($this->returnValueMap(
+        $this->source->expects($this->any())->method('getRecords')->willReturnMap(
             [
                 ['source_document_1', 0, null, [['field_1' => 1, 'field_2' => 2]]]
             ]
-        ));
+        );
 
         $this->assertTrue($this->step->perform());
     }

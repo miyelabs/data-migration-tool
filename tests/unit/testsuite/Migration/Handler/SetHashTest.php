@@ -23,7 +23,7 @@ class SetHashTest extends \PHPUnit\Framework\TestCase
             ['setValue', 'getFields']
         );
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, $hash($baseFieldValue));
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
 
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['getValue'])
@@ -33,7 +33,7 @@ class SetHashTest extends \PHPUnit\Framework\TestCase
         $oppositeRecord->expects($this->any())
             ->method('getValue')
             ->with($baseField)
-            ->will($this->returnValue($baseFieldValue));
+            ->willReturn($baseFieldValue);
 
         $handler = new SetHash($hash, $baseField);
         $handler->setField($fieldName);

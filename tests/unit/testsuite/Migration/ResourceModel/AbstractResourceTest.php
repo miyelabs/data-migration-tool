@@ -77,7 +77,7 @@ class AbstractResourceTest extends \PHPUnit\Framework\TestCase
         $this->adapterFactorySource->expects($this->any())
             ->method('create')
             ->with(['resourceType' => 'source'])
-            ->will($this->returnValue($this->adapter));
+            ->willReturn($this->adapter);
         $this->adapterFactoryDestination = $this->createPartialMock(
             \Migration\ResourceModel\AdapterFactory::class,
             ['create']
@@ -85,7 +85,7 @@ class AbstractResourceTest extends \PHPUnit\Framework\TestCase
         $this->adapterFactoryDestination->expects($this->any())
             ->method('create')
             ->with(['resourceType' => 'destination'])
-            ->will($this->returnValue($this->adapter));
+            ->willReturn($this->adapter);
         $this->documentFactory = $this->getMockBuilder(\Migration\ResourceModel\DocumentFactory::class)
             ->disableOriginalConstructor()
             ->setMethods(['create'])
@@ -135,7 +135,7 @@ class AbstractResourceTest extends \PHPUnit\Framework\TestCase
         $this->documentFactory->expects($this->any())
             ->method('create')
             ->with($this->equalTo(['structure' => $structure, 'documentName' => $resourceName]))
-            ->will($this->returnValue($document));
+            ->willReturn($document);
         $this->adapter->expects($this->any())
             ->method('getDocumentStructure')
             ->with($this->equalTo($prefix . $resourceName))

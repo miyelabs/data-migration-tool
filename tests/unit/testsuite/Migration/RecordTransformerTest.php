@@ -83,16 +83,14 @@ class RecordTransformerTest extends \PHPUnit\Framework\TestCase
             \Migration\Handler\Manager::class,
             ['initHandler', 'getHandlers']
         );
-        $this->handlerManagerFactory->expects($this->at($callNumber))->method('create')->will(
-            $this->returnValue($handlerManager)
-        );
+        $this->handlerManagerFactory->expects($this->at($callNumber))->method('create')->willReturn($handlerManager);
         $structure = $this->createPartialMock(
             \Migration\ResourceModel\Structure::class,
             ['getFields']
         );
-        $document->expects($this->once())->method('getStructure')->will($this->returnValue($structure));
+        $document->expects($this->once())->method('getStructure')->willReturn($structure);
         $fields = ['field1' => '', 'field2' => '', 'field3' => '',];
-        $structure->expects($this->once())->method('getFields')->will($this->returnValue($fields));
+        $structure->expects($this->once())->method('getFields')->willReturn($fields);
         $handlerManager->expects($this->any())->method('initHandler');
         return $handlerManager;
     }
@@ -117,16 +115,16 @@ class RecordTransformerTest extends \PHPUnit\Framework\TestCase
         $this->recordTransformer->init();
         $this->sourceDocument->expects($this->any())->method('getName')->willReturn('source_document_name');
         $recordFrom = $this->createMock(\Migration\ResourceModel\Record::class);
-        $recordFrom->expects($this->any())->method('getFields')->will($this->returnValue(
+        $recordFrom->expects($this->any())->method('getFields')->willReturn(
             ['field1', 'field2', 'field3']
-        ));
+        );
         $recordFrom->expects($this->any())->method('getValue')->willReturnMap([
             ['field1', 1],
             ['field2', 2],
             ['field3', 3]
         ]);
         $recordTo = $this->createMock(\Migration\ResourceModel\Record::class);
-        $recordTo->expects($this->any())->method('getFields')->will($this->returnValue(['field2']));
+        $recordTo->expects($this->any())->method('getFields')->willReturn(['field2']);
         $recordTo->expects($this->any())->method('setValue')->willReturnMap([
             ['field11', 1],
             ['field2', 2]

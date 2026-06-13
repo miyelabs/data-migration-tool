@@ -36,7 +36,7 @@ class Version191o2000Test extends \PHPUnit\Framework\TestCase
      * @throws \Migration\Exception
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $helper = \Migration\TestFramework\Helper::getInstance();
         $this->objectManager = $helper->getObjectManager();

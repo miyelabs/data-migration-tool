@@ -24,7 +24,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $objectManager = \Migration\TestFramework\Helper::getInstance()->getObjectManager();
         $objectManager->get(\Migration\Config::class)->init(dirname(__DIR__) . '/../_files/config.xml');

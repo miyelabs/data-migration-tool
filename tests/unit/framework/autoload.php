@@ -9,6 +9,8 @@ require_once $magentoDir . '/app/autoload.php';
 
 $vendorDir = require $magentoDir . '/app/etc/vendor_path.php';
 $vendorAutoload = require $magentoDir . "/{$vendorDir}/autoload.php";
-$testsBaseDir = "$magentoDir/$vendorDir/magento/data-migration-tool/tests/unit";
+$testsBaseDir = dirname(__DIR__);
+$toolBaseDir = dirname($testsBaseDir, 2);
 $vendorAutoload->add('Migration\\Test\\', "{$testsBaseDir}/testsuite/Migration");
 $vendorAutoload->addPsr4('Migration\\TestFramework\\', "{$testsBaseDir}/framework");
+$vendorAutoload->addPsr4('Migration\\', "{$toolBaseDir}/src/Migration", true);

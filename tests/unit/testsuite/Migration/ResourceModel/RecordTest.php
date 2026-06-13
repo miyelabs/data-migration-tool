@@ -30,7 +30,7 @@ class RecordTest extends \PHPUnit\Framework\TestCase
             \Migration\ResourceModel\Document::class,
             ['getStructure']
         );
-        $document->expects($this->any())->method('getStructure')->will($this->returnValue($this->structure));
+        $document->expects($this->any())->method('getStructure')->willReturn($this->structure);
         $this->record = new \Migration\ResourceModel\Record(['id' => 10, 'name' => 'item1'], $document);
     }
 
@@ -184,7 +184,7 @@ class RecordTest extends \PHPUnit\Framework\TestCase
             \Migration\ResourceModel\Structure::class,
             ['getFields']
         );
-        $structure->expects($this->once())->method('getFields')->will($this->returnValue($structureData));
+        $structure->expects($this->once())->method('getFields')->willReturn($structureData);
         $this->record->setStructure($structure);
         $this->assertEquals($fields, $this->record->getFields());
     }

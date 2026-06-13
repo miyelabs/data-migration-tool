@@ -55,11 +55,11 @@ class AdapterFactoryTest extends \PHPUnit\Framework\TestCase
         $this->config->expects($this->once())
             ->method('getOption')
             ->with('resource_adapter_class_name')
-            ->will($this->returnValue(null));
+            ->willReturn(null);
         $this->objectManager->expects($this->once())
             ->method('create')
             ->with(\Migration\ResourceModel\Adapter\Mysql::class, $data)
-            ->will($this->returnValue($adapter));
+            ->willReturn($adapter);
         $this->assertInstanceOf($adapterClassName, $this->adapterFactory->create($data));
     }
 }

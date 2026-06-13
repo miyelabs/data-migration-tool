@@ -34,7 +34,7 @@ class CustomerSegmentConditionSqlTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         /** @var Map|\PHPUnit_Framework_MockObject_MockObject $map */
         $this->mapMain = $this->getMockBuilder(\Migration\Reader\Map::class)->disableOriginalConstructor()
@@ -60,9 +60,9 @@ class CustomerSegmentConditionSqlTest extends \PHPUnit\Framework\TestCase
         $destination = $this->getMockBuilder(\Migration\ResourceModel\Destination::class)->disableOriginalConstructor()
             ->setMethods(['addDocumentPrefix'])
             ->getMock();
-        $destination->expects($this->any())->method('addDocumentPrefix')->will($this->returnCallback(function ($value) {
+        $destination->expects($this->any())->method('addDocumentPrefix')->willReturnCallback(function ($value) {
             return 'pfx_' . $value;
-        }));
+        });
 
         $this->handler = new CustomerSegmentConditionSql($mapFactory, $this->source, $destination);
     }
@@ -83,9 +83,9 @@ class CustomerSegmentConditionSqlTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $fieldName = 'fieldname';
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)
-            ->will($this->returnValue('SELECT * FROM `sales_flat_order` LEFT JOIN `source_some_document`'));
+            ->willReturn('SELECT * FROM `sales_flat_order` LEFT JOIN `source_some_document`');
         $recordToHandle->expects($this->once())->method('setValue')
             ->with($fieldName, 'SELECT * FROM `pfx_sales_order` LEFT JOIN `pfx_dest_some_document`');
 
@@ -102,8 +102,8 @@ class CustomerSegmentConditionSqlTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->source->expects($this->once())->method('getDocumentList')
-            ->will($this->returnValue(['sales_flat_order', 'source_some_document']));
-        $this->source->expects($this->any())->method('addDocumentPrefix')->will($this->returnArgument(0));
+            ->willReturn(['sales_flat_order', 'source_some_document']);
+        $this->source->expects($this->any())->method('addDocumentPrefix')->willReturnArgument(0);
 
         $this->handler->setField($fieldName);
         $this->handler->handle($recordToHandle, $oppositeRecord);

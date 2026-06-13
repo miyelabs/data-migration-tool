@@ -43,7 +43,7 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->destination = $this->createPartialMock(
             \Migration\ResourceModel\Destination::class,
@@ -52,7 +52,7 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
         $this->destination
             ->expects($this->any())
             ->method('addDocumentPrefix')
-            ->will($this->returnValueMap([['rating_store', 'rating_store'], ['rating', 'rating']]));
+            ->willReturnMap([['rating_store', 'rating_store'], ['rating', 'rating']]);
 
         $this->structure = $this->createPartialMock(
             \Migration\ResourceModel\Structure::class,

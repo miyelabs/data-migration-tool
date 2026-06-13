@@ -72,7 +72,7 @@ class EncryptTest extends \PHPUnit\Framework\TestCase
         );
         $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)->willReturn($dbValue);
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, $newValue);
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -90,7 +90,7 @@ class EncryptTest extends \PHPUnit\Framework\TestCase
         $this->configReader->expects($this->once())
             ->method('getOption')
             ->with(self::CRYPT_KEY)
-            ->will($this->returnValue($key));
+            ->willReturn($key);
 
         $this->cryptFactory->expects($this->once())
             ->method('create')
@@ -100,7 +100,7 @@ class EncryptTest extends \PHPUnit\Framework\TestCase
                 'mode'       => $mode,
                 'initVector' => $initVector,
             ])
-            ->will($this->returnValue($crypt));
+            ->willReturn($crypt);
 
         $this->encryptor->expects($this->once())
             ->method('encrypt')

@@ -45,7 +45,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->destination = $this->createPartialMock(
             \Migration\ResourceModel\Destination::class,
@@ -54,7 +54,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
         $this->destination
             ->expects($this->any())
             ->method('addDocumentPrefix')
-            ->will($this->returnValueMap([['rating_store', 'rating_store'], ['rating', 'rating']]));
+            ->willReturnMap([['rating_store', 'rating_store'], ['rating', 'rating']]);
         $this->select = $this->createPartialMock(
             \Magento\Framework\DB\Select::class,
             ['from', 'where']
@@ -88,18 +88,18 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             ->expects($this->at(0))
             ->method('from')
             ->with('rating_store', ['rating_id'])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->select
             ->expects($this->at(1))
             ->method('where')
             ->with('store_id > 0')
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->adapter
             ->expects($this->exactly(2))
             ->method('loadDataFromSelect')
             ->with($this->select)->willReturn([['rating_id' => 1]]);
-        $this->select->expects($this->at(2))->method('from')->with('rating', ['rating_id'])->will($this->returnSelf());
-        $this->select->expects($this->at(3))->method('where')->with('is_active = ?', 1)->will($this->returnSelf());
+        $this->select->expects($this->at(2))->method('from')->with('rating', ['rating_id'])->willReturnSelf();
+        $this->select->expects($this->at(3))->method('where')->with('is_active = ?', 1)->willReturnSelf();
         $this->logger->expects($this->never())->method('addRecord');
         $this->assertTrue($this->volume->perform());
     }
@@ -119,12 +119,12 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             ->expects($this->at(0))
             ->method('from')
             ->with('rating_store', ['rating_id'])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->select
             ->expects($this->at(1))
             ->method('where')
             ->with('store_id > 0')
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->adapter
             ->expects($this->at(1))
             ->method('loadDataFromSelect')
@@ -139,12 +139,12 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             ->expects($this->at(2))
             ->method('from')
             ->with('rating', ['rating_id'])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->select
             ->expects($this->at(3))
             ->method('where')
             ->with('is_active = ?', 1)
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->logger
             ->expects($this->once())
             ->method('addRecord')

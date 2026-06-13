@@ -74,7 +74,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->progressBar = $this->createPartialMock(
             \Migration\App\ProgressBar\LogLevelProcessor::class,
@@ -147,8 +147,8 @@ class DataTest extends \PHPUnit\Framework\TestCase
     public function testGetMapEmptyDestinationDocumentName()
     {
         $sourceDocName = 'core_config_data';
-        $this->progress->expects($this->once())->method('getProcessedEntities')->will($this->returnValue([]));
-        $this->source->expects($this->any())->method('getDocumentList')->will($this->returnValue([$sourceDocName]));
+        $this->progress->expects($this->once())->method('getProcessedEntities')->willReturn([]);
+        $this->source->expects($this->any())->method('getDocumentList')->willReturn([$sourceDocName]);
         $this->data->perform();
     }
 
@@ -158,27 +158,23 @@ class DataTest extends \PHPUnit\Framework\TestCase
     public function testPerform()
     {
         $sourceDocName = 'core_config_data';
-        $this->source->expects($this->any())->method('getDocumentList')->will($this->returnValue([$sourceDocName]));
-        $this->source->expects($this->any())->method('getRecordsCount')->will($this->returnValue(2));
+        $this->source->expects($this->any())->method('getDocumentList')->willReturn([$sourceDocName]);
+        $this->source->expects($this->any())->method('getRecordsCount')->willReturn(2);
         $dstDocName = 'config_data';
-        $this->progress->expects($this->once())->method('getProcessedEntities')->will($this->returnValue([]));
-        $this->map->expects($this->once())->method('getDocumentMap')->will($this->returnValue($dstDocName));
+        $this->progress->expects($this->once())->method('getProcessedEntities')->willReturn([]);
+        $this->map->expects($this->once())->method('getDocumentMap')->willReturn($dstDocName);
         $this->map->expects($this->any())->method('getHandlerConfigs')->willReturn(['class' => 'Handler\Class']);
 
         $sourceDocument = $this->createPartialMock(
             \Migration\ResourceModel\Document::class,
             ['getRecords', 'getStructure']
         );
-        $this->source->expects($this->once())->method('getDocument')->will(
-            $this->returnValue($sourceDocument)
-        );
+        $this->source->expects($this->once())->method('getDocument')->willReturn($sourceDocument);
         $destinationDocument = $this->getMockBuilder(\Migration\ResourceModel\Document::class)
             ->disableOriginalConstructor()
             ->setMethods(['getStructure', 'getRecords'])
             ->getMock();
-        $this->destination->expects($this->once())->method('getDocument')->will(
-            $this->returnValue($destinationDocument)
-        );
+        $this->destination->expects($this->once())->method('getDocument')->willReturn($destinationDocument);
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)->disableOriginalConstructor()
             ->setMethods(['getFields'])
             ->getMock();
@@ -191,9 +187,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
             \Migration\RecordTransformer::class,
             ['init', 'transform']
         );
-        $this->recordTransformerFactory->expects($this->once())->method('create')->will(
-            $this->returnValue($recordTransformer)
-        );
+        $this->recordTransformerFactory->expects($this->once())->method('create')->willReturn($recordTransformer);
         $recordTransformer->expects($this->once())->method('init');
 
         $bulk = [['id' => 4, 'name' => 'john']];
@@ -205,14 +199,12 @@ class DataTest extends \PHPUnit\Framework\TestCase
 
         $this->source->expects($this->any())->method('getPageSize')->willReturn(100);
         $destinationRecords =  $this->createMock(\Migration\ResourceModel\Record\Collection::class);
-        $destinationDocument->expects($this->once())->method('getRecords')->will(
-            $this->returnValue($destinationRecords)
-        );
+        $destinationDocument->expects($this->once())->method('getRecords')->willReturn($destinationRecords);
 
         $srcRecord = $this->createMock(\Migration\ResourceModel\Record::class);
         $dstRecord = $this->createMock(\Migration\ResourceModel\Record::class);
-        $this->recordFactory->expects($this->at(0))->method('create')->will($this->returnValue($srcRecord));
-        $this->recordFactory->expects($this->at(1))->method('create')->will($this->returnValue($dstRecord));
+        $this->recordFactory->expects($this->at(0))->method('create')->willReturn($srcRecord);
+        $this->recordFactory->expects($this->at(1))->method('create')->willReturn($dstRecord);
         $recordTransformer->expects($this->once())->method('transform')->with($srcRecord, $dstRecord);
 
         $this->destination->expects($this->once())->method('saveRecords')->with($dstDocName, $destinationRecords);
@@ -230,11 +222,11 @@ class DataTest extends \PHPUnit\Framework\TestCase
     public function testPerformJustCopy()
     {
         $sourceDocName = 'core_config_data';
-        $this->source->expects($this->any())->method('getDocumentList')->will($this->returnValue([$sourceDocName]));
-        $this->source->expects($this->any())->method('getRecordsCount')->will($this->returnValue(2));
+        $this->source->expects($this->any())->method('getDocumentList')->willReturn([$sourceDocName]);
+        $this->source->expects($this->any())->method('getRecordsCount')->willReturn(2);
         $dstDocName = 'config_data';
-        $this->progress->expects($this->once())->method('getProcessedEntities')->will($this->returnValue([]));
-        $this->map->expects($this->once())->method('getDocumentMap')->will($this->returnValue($dstDocName));
+        $this->progress->expects($this->once())->method('getProcessedEntities')->willReturn([]);
+        $this->map->expects($this->once())->method('getDocumentMap')->willReturn($dstDocName);
         $this->map->expects($this->any())->method('getHandlerConfigs')->willReturn([]);
 
         $sourceDocument = $this->createPartialMock(
@@ -253,9 +245,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getStructure', 'getRecords'])
             ->getMock();
-        $this->destination->expects($this->once())->method('getDocument')->will(
-            $this->returnValue($destinationDocument)
-        );
+        $this->destination->expects($this->once())->method('getDocument')->willReturn($destinationDocument);
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)
             ->disableOriginalConstructor()
             ->setMethods(['getFields'])
@@ -266,12 +256,10 @@ class DataTest extends \PHPUnit\Framework\TestCase
         $destinationDocument->expects($this->any())->method('getStructure')->willReturn($structure);
 
         $destinationRecords =  $this->createMock(\Migration\ResourceModel\Record\Collection::class);
-        $destinationDocument->expects($this->once())->method('getRecords')->will(
-            $this->returnValue($destinationRecords)
-        );
+        $destinationDocument->expects($this->once())->method('getRecords')->willReturn($destinationRecords);
 
         $dstRecord = $this->createMock(\Migration\ResourceModel\Record::class);
-        $this->recordFactory->expects($this->at(0))->method('create')->will($this->returnValue($dstRecord));
+        $this->recordFactory->expects($this->at(0))->method('create')->willReturn($dstRecord);
 
         $this->destination->expects($this->once())->method('saveRecords')->with($dstDocName, $destinationRecords);
         $this->destination->expects($this->once())->method('clearDocument')->with($dstDocName);

@@ -22,7 +22,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
             \Migration\App\Progress::class,
             ['getProcessedEntities', 'addProcessedEntity']
         );
-        $progress->expects($this->once())->method('getProcessedEntities')->will($this->returnValue([]));
+        $progress->expects($this->once())->method('getProcessedEntities')->willReturn([]);
         $progress->expects($this->any())->method('addProcessedEntity');
 
         $helper = \Migration\TestFramework\Helper::getInstance();

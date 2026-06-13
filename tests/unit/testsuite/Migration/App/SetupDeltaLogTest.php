@@ -24,13 +24,20 @@ class SetupDeltaLogTest extends \PHPUnit\Framework\TestCase
         $source->expects($this->any())
             ->method('getDocument')
             ->willReturn($document);
+        $createDeltaArgs = [
+            ['orders', 'order_id'],
+            ['invoices', 'invoice_id'],
+            ['reports', 'report_id'],
+            ['shipments', 'shipment_id']
+        ];
+        $createDeltaInvocations = 0;
         $source->expects($this->exactly(4))
             ->method('createDelta')
-            ->withConsecutive(
-                ['orders', 'order_id'],
-                ['invoices', 'invoice_id'],
-                ['reports', 'report_id'],
-                ['shipments', 'shipment_id']
+            ->willReturnCallback(
+                function ($document, $idKey) use ($createDeltaArgs, &$createDeltaInvocations) {
+                    $this->assertSame($createDeltaArgs[$createDeltaInvocations], [$document, $idKey]);
+                    $createDeltaInvocations++;
+                }
             );
 
         /** @var \Migration\Reader\Groups|\PHPUnit_Framework_MockObject_MockObject $readerGroups */

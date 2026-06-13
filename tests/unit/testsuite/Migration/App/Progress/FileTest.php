@@ -28,13 +28,13 @@ class FileTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->filesystemDriver = $this->getMockBuilder(\Magento\Framework\Filesystem\Driver\File::class)
             ->setMethods(['isExists', 'filePutContents', 'fileGetContents'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->filesystemDriver->expects($this->any())->method('filePutContents')->will($this->returnValue(true));
+        $this->filesystemDriver->expects($this->any())->method('filePutContents')->willReturn(true);
         $directoryRead = $this->getMockBuilder(\Magento\Framework\Filesystem\Directory\ReadInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -54,7 +54,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
     public function testSaveData()
     {
         $data = ['key' => ['other_key' => 'value']];
-        $this->filesystemDriver->expects($this->any())->method('isExists')->will($this->returnValue(true));
+        $this->filesystemDriver->expects($this->any())->method('isExists')->willReturn(true);
         $this->assertTrue($this->file->saveData($data));
     }
 
@@ -63,7 +63,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetData()
     {
-        $this->filesystemDriver->expects($this->any())->method('isExists')->will($this->returnValue(true));
+        $this->filesystemDriver->expects($this->any())->method('isExists')->willReturn(true);
         $dataSerialized = '{"object":{"integrity":true}}';
         $this->filesystemDriver->expects($this->once())->method('fileGetContents')->willReturn($dataSerialized);
         $data = $this->file->getData();

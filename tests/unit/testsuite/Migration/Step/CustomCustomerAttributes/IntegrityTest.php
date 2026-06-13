@@ -51,7 +51,7 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->logger = $this->createPartialMock(
             \Migration\Logger\Logger::class,
@@ -120,15 +120,15 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
 
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $structure->expects($this->any())->method('getFields')->will($this->returnValue($fields));
+        $structure->expects($this->any())->method('getFields')->willReturn($fields);
         $this->source->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['document1']));
+            ->willReturn(['document1']);
         $this->destination->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['document2']));
+            ->willReturn(['document2']);
         $document = $this->getMockBuilder(\Migration\ResourceModel\Document::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $document->expects($this->any())->method('getStructure')->will($this->returnValue($structure));
+        $document->expects($this->any())->method('getStructure')->willReturn($structure);
 
         $this->map->expects($this->any())->method('getDocumentMap')->willReturnMap(
             [
@@ -137,9 +137,9 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
             ]
         ) ;
 
-        $this->source->expects($this->any())->method('getDocument')->will($this->returnValue($document));
-        $this->destination->expects($this->any())->method('getDocument')->will($this->returnValue($document));
-        $this->map->expects($this->any())->method('getFieldMap')->will($this->returnValue('field1'));
+        $this->source->expects($this->any())->method('getDocument')->willReturn($document);
+        $this->destination->expects($this->any())->method('getDocument')->willReturn($document);
+        $this->map->expects($this->any())->method('getFieldMap')->willReturn('field1');
         $this->logger->expects($this->never())->method('error');
 
         $this->assertTrue($this->log->perform());

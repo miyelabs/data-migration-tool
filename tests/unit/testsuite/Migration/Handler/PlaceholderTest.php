@@ -28,7 +28,7 @@ class PlaceholderTest extends \PHPUnit\Framework\TestCase
         );
         $record->expects($this->once())->method('getValue')->with($fieldName)->willReturn($content);
         $record->expects($this->once())->method('setValue')->with($fieldName, $contentConverted);
-        $record->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $record->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $classMap = $this->createPartialMock(
             \Migration\Reader\ClassMap::class,
             ['getMap']

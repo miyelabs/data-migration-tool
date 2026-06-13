@@ -31,7 +31,7 @@ class IgnoredAttributesTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->helper = $this->getMockBuilder(\Migration\Step\Eav\Helper::class)->disableOriginalConstructor()
             ->setMethods(['getAttributesGroupCodes'])

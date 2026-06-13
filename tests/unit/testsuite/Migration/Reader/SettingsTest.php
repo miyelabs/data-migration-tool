@@ -18,7 +18,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $config = $this->getConfigFile('tests/unit/testsuite/Migration/_files/settings.xml');
 
@@ -41,9 +41,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         /** @var \Migration\Config|\PHPUnit_Framework_MockObject_MockObject $config */
         $config = $this->getMockBuilder(\Migration\Config::class)->disableOriginalConstructor()
             ->setMethods(['getOption'])->getMock();
-        $config->expects($this->once())->method('getOption')->with('settings_map_file')->will(
-            $this->returnValue($configPath)
-        );
+        $config->expects($this->once())->method('getOption')->with('settings_map_file')->willReturn($configPath);
         return $config;
     }
 

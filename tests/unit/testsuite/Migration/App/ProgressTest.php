@@ -24,7 +24,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->file = $this->getMockBuilder(\Migration\App\Progress\File::class)
             ->setMethods(['getData', 'saveData', 'clearLockFile', 'isExists'])
@@ -65,7 +65,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsCompleted($data, $step, $stage, $result)
     {
-        $this->file->expects($this->once())->method('getData')->will($this->returnValue($data));
+        $this->file->expects($this->once())->method('getData')->willReturn($data);
         $isCompleted = $this->progress->isCompleted($step, $stage);
         $this->assertEquals($result, $isCompleted);
     }
@@ -90,7 +90,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
         $stage = 'run';
         $documentName = 'document_name1';
         $data = [get_class($step) => [$stage => ['process' => [$documentName]]]];
-        $this->file->expects($this->once())->method('getData')->will($this->returnValue($data));
+        $this->file->expects($this->once())->method('getData')->willReturn($data);
         $result = $this->progress->addProcessedEntity($step, $stage, $documentName);
         $this->assertFalse($result);
     }
@@ -118,7 +118,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
         $stage = 'run';
         $document = ['some_document'];
         $progress = [get_class($step) => [$stage => ['process' => $document]]];
-        $this->file->expects($this->once())->method('getData')->will($this->returnValue($progress));
+        $this->file->expects($this->once())->method('getData')->willReturn($progress);
         $result = $this->progress->getProcessedEntities($step, $stage);
         $this->assertEquals($document, $result);
     }
@@ -128,7 +128,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function testSaveResult()
     {
-        $this->file->expects($this->once())->method('saveData')->will($this->returnValue(1));
+        $this->file->expects($this->once())->method('saveData')->willReturn(1);
         $step = $this->getMockBuilder(\Migration\Step\Map\Migrate::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -153,7 +153,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $data = [get_class($step) => ['dummy_array']];
-        $this->file->expects($this->once())->method('getData')->will($this->returnValue($data));
+        $this->file->expects($this->once())->method('getData')->willReturn($data);
         $this->file->expects($this->once())->method('saveData')->with([]);
         $this->progress->reset($step);
     }
@@ -163,7 +163,7 @@ class ProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function testSaveDataNoFile()
     {
-        $this->file->expects($this->any())->method('isExists')->will($this->returnValue(false));
+        $this->file->expects($this->any())->method('isExists')->willReturn(false);
         $this->file->expects($this->once())->method('saveData');
         $step = $this->getMockBuilder(\Migration\Step\Map::class)
             ->disableOriginalConstructor()

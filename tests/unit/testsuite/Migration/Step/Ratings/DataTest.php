@@ -35,7 +35,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->destination = $this->createPartialMock(
             \Migration\ResourceModel\Destination::class,
@@ -44,7 +44,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
         $this->destination
             ->expects($this->any())
             ->method('addDocumentPrefix')
-            ->will($this->returnValueMap([['rating_store', 'rating_store'], ['rating', 'rating']]));
+            ->willReturnMap([['rating_store', 'rating_store'], ['rating', 'rating']]);
         $this->select = $this->createPartialMock(
             \Magento\Framework\DB\Select::class,
             ['from', 'where']
@@ -74,12 +74,12 @@ class DataTest extends \PHPUnit\Framework\TestCase
             ->expects($this->once())
             ->method('from')
             ->with('rating_store', ['rating_id'])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->select
             ->expects($this->once())
             ->method('where')
             ->with('store_id > 0')
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->adapter
             ->expects($this->once())
             ->method('loadDataFromSelect')

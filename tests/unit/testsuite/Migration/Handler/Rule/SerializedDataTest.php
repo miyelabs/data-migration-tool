@@ -38,14 +38,14 @@ class SerializedDataTest extends \PHPUnit\Framework\TestCase
         $classMap = $this->getMockBuilder(\Migration\Reader\ClassMap::class)->disableOriginalConstructor()
             ->setMethods(['convertClassName'])
             ->getMock();
-        $classMap->expects($this->exactly(2))->method('convertClassName')->will($this->returnValueMap([
+        $classMap->expects($this->exactly(2))->method('convertClassName')->willReturnMap([
             ['some\class_name_1', 'Some\Class\Name1'],
             ['some\class_name_2', 'Some\Class\Name2']
-        ]));
+        ]);
 
         $fieldName = 'fieldname';
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
-        $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)->will($this->returnValue($data));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
+        $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)->willReturn($data);
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, $convertedData);
 
         $handler = new SerializedData($classMap);

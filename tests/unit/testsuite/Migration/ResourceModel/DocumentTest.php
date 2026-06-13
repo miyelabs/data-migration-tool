@@ -51,7 +51,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
                 'structure' => $this->structure,
                 'documentName' => 'test_document',
             ]))
-            ->will($this->returnValue($recordCollection));
+            ->willReturn($recordCollection);
 
         $this->assertSame($recordCollection, $this->document->getRecords());
     }
