@@ -41,7 +41,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->stepList = $this->getMockBuilder(\Migration\App\Mode\StepList::class)->disableOriginalConstructor()
             ->setMethods(['getSteps'])
@@ -73,7 +73,7 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Migration\Exception::class);
         $this->expectExceptionMessage('Integrity Check failed');
         $step = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $step->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $step->expects($this->once())->method('perform')->willReturn(false);
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
         $this->stepList->expects($this->once())->method('getSteps')
@@ -88,13 +88,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     {
         $this->logger->expects($this->once())->method('warning')->with('Volume Check failed');
         $stepIntegrity = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepIntegrity->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepIntegrity->expects($this->once())->method('perform')->willReturn(true);
 
         $stepData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepData->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepData->expects($this->once())->method('perform')->willReturn(true);
 
         $stepVolume = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepVolume->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $stepVolume->expects($this->once())->method('perform')->willReturn(false);
 
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
@@ -112,10 +112,10 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Migration\Exception::class);
         $this->expectExceptionMessage('Data Migration failed');
         $stepIntegrity = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepIntegrity->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepIntegrity->expects($this->once())->method('perform')->willReturn(true);
 
         $stepData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepData->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $stepData->expects($this->once())->method('perform')->willReturn(false);
 
         $stepVolume = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
         $stepVolume->expects($this->never())->method('perform');
@@ -134,13 +134,13 @@ class SettingsTest extends \PHPUnit\Framework\TestCase
     public function testRunStepsSuccess()
     {
         $stepIntegrity = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepIntegrity->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepIntegrity->expects($this->once())->method('perform')->willReturn(true);
 
         $stepData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepData->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepData->expects($this->once())->method('perform')->willReturn(true);
 
         $stepVolume = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepVolume->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepVolume->expects($this->once())->method('perform')->willReturn(true);
 
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);

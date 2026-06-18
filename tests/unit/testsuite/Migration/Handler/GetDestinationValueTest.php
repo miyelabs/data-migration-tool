@@ -24,7 +24,7 @@ class GetDestinationValueTest extends \PHPUnit\Framework\TestCase
             ['setValue', 'getFields']
         );
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, null);
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
 
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['getValue'])
@@ -32,7 +32,7 @@ class GetDestinationValueTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $oppositeRecord->expects($this->exactly(2))->method('getValue')
             ->with($fieldName)
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         $handler = new GetDestinationValue('true');
         $handler->setField($fieldName);
@@ -52,14 +52,14 @@ class GetDestinationValueTest extends \PHPUnit\Framework\TestCase
             ['setValue', 'getFields']
         );
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, $value);
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
 
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['getValue'])
             ->disableOriginalConstructor()
             ->getMock();
         $oppositeRecord->expects($this->exactly(2))->method('getValue')->with($fieldName)
-            ->will($this->returnValue($value));
+            ->willReturn($value);
 
         $handler = new GetDestinationValue('true');
         $handler->setField($fieldName);
@@ -78,13 +78,13 @@ class GetDestinationValueTest extends \PHPUnit\Framework\TestCase
             ['setValue', 'getFields']
         );
         $recordToHandle->expects($this->never())->method('setValue');
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
 
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['getValue'])
             ->disableOriginalConstructor()
             ->getMock();
-        $oppositeRecord->expects($this->once())->method('getValue')->with($fieldName)->will($this->returnValue(null));
+        $oppositeRecord->expects($this->once())->method('getValue')->with($fieldName)->willReturn(null);
 
         $handler = new GetDestinationValue();
         $handler->setField($fieldName);

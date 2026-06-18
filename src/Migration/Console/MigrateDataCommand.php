@@ -45,7 +45,7 @@ class MigrateDataCommand extends AbstractMigrateCommand
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName($this->name)
             ->setDescription('Main migration of data');
@@ -55,7 +55,7 @@ class MigrateDataCommand extends AbstractMigrateCommand
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->dataMode->run();
         return Command::SUCCESS;

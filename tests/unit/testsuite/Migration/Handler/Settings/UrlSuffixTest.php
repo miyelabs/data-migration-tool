@@ -22,7 +22,7 @@ class UrlSuffixTest extends \PHPUnit\Framework\TestCase
         );
         $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)->willReturn($urlSuffix);
         $recordToHandle->expects($this->once())->method('setValue')->with($fieldName, $urlSuffixHandled);
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()
             ->getMock();

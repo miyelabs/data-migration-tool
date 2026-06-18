@@ -26,7 +26,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->source = $this->getMockBuilder(\Migration\ResourceModel\Source::class)
             ->setMethods(['getAdapter', 'addDocumentPrefix'])

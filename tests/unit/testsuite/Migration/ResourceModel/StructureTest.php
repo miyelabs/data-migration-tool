@@ -15,7 +15,7 @@ class StructureTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->structure = new \Migration\ResourceModel\Structure(['id' => 'int', 'name' => 'varchar']);
     }

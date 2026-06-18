@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->objectManager = $this->getMockBuilder(\Magento\Framework\ObjectManager\ObjectManager::class)
             ->disableOriginalConstructor()
@@ -38,7 +38,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreate()
     {
         $step = $this->createMock(\Migration\App\Step\StageInterface::class);
-        $this->objectManager->expects($this->once())->method('create')->will($this->returnValue($step));
+        $this->objectManager->expects($this->once())->method('create')->willReturn($step);
         $this->assertSame($step, $this->factory->create(\Migration\Steps\Integrity::class));
     }
 

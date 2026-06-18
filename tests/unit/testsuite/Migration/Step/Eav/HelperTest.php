@@ -69,7 +69,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->map = $this->getMockBuilder(\Migration\Reader\Map::class)->disableOriginalConstructor()
             ->setMethods(['getDocumentMap'])
@@ -131,7 +131,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     public function testGetSourceRecordsCount()
     {
         $this->source->expects($this->once())->method('getRecordsCount')->with('some_document')
-            ->will($this->returnValue(5));
+            ->willReturn(5);
         $this->assertEquals(5, $this->helper->getSourceRecordsCount('some_document'));
     }
 
@@ -142,9 +142,9 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->map->expects($this->once())->method('getDocumentMap')
             ->with('some_document', MapInterface::TYPE_SOURCE)
-            ->will($this->returnValue('some_dest_document'));
+            ->willReturn('some_dest_document');
         $this->destination->expects($this->once())->method('getRecordsCount')->with('some_dest_document')
-            ->will($this->returnValue(5));
+            ->willReturn(5);
         $this->assertEquals(5, $this->helper->getDestinationRecordsCount('some_document'));
     }
 
@@ -153,9 +153,9 @@ class HelperTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetSourceRecords()
     {
-        $this->source->expects($this->once())->method('getRecordsCount')->will($this->returnValue(1));
+        $this->source->expects($this->once())->method('getRecordsCount')->willReturn(1);
         $this->source->expects($this->once())->method('getRecords')->with('test_source_document', 0, 1)
-            ->will($this->returnValue([['key' => 'key_value', 'field' => 'field_value']]));
+            ->willReturn([['key' => 'key_value', 'field' => 'field_value']]);
 
         $result = [
             'key_value-field_value' => ['key' => 'key_value', 'field' => 'field_value']
@@ -171,10 +171,10 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     {
         $this->map->expects($this->once())->method('getDocumentMap')
             ->with('test_source_document', MapInterface::TYPE_SOURCE)
-            ->will($this->returnValue('test_dest_document'));
-        $this->destination->expects($this->once())->method('getRecordsCount')->will($this->returnValue(1));
+            ->willReturn('test_dest_document');
+        $this->destination->expects($this->once())->method('getRecordsCount')->willReturn(1);
         $this->destination->expects($this->once())->method('getRecords')->with('test_dest_document', 0, 1)
-            ->will($this->returnValue([['key' => 'key_value', 'field' => 'field_value']]));
+            ->willReturn([['key' => 'key_value', 'field' => 'field_value']]);
 
         $result = [
             'key_value-field_value' => ['key' => 'key_value', 'field' => 'field_value']
@@ -188,9 +188,9 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     public function testGetSourceRecordsNoKey()
     {
         $row = ['key' => 'key_value', 'field' => 'field_value'];
-        $this->source->expects($this->once())->method('getRecordsCount')->will($this->returnValue(1));
+        $this->source->expects($this->once())->method('getRecordsCount')->willReturn(1);
         $this->source->expects($this->once())->method('getRecords')->with('test_source_document', 0, 1)
-            ->will($this->returnValue([$row]));
+            ->willReturn([$row]);
 
         $this->assertEquals([$row], $this->helper->getSourceRecords('test_source_document'));
     }
@@ -203,10 +203,10 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $row = ['key' => 'key_value', 'field' => 'field_value'];
         $this->map->expects($this->once())->method('getDocumentMap')
             ->with('test_source_document', MapInterface::TYPE_SOURCE)
-            ->will($this->returnValue('test_dest_document'));
-        $this->destination->expects($this->once())->method('getRecordsCount')->will($this->returnValue(1));
+            ->willReturn('test_dest_document');
+        $this->destination->expects($this->once())->method('getRecordsCount')->willReturn(1);
         $this->destination->expects($this->once())->method('getRecords')->with('test_dest_document', 0, 1)
-            ->will($this->returnValue([$row]));
+            ->willReturn([$row]);
 
         $this->assertEquals([$row], $this->helper->getDestinationRecords('test_source_document'));
     }
@@ -232,9 +232,9 @@ class HelperTest extends \PHPUnit\Framework\TestCase
                     'destDocument' => $destinationDocument,
                     'mapReader' => $this->map
                 ]
-            )->will($this->returnValue($recordTransformer));
+            )->willReturn($recordTransformer);
 
-        $recordTransformer->expects($this->once())->method('init')->will($this->returnSelf());
+        $recordTransformer->expects($this->once())->method('init')->willReturnSelf();
 
         $this->assertSame(
             $recordTransformer,
@@ -251,7 +251,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
             ->willReturn(['some_document' => 0]);
         $this->map->expects($this->once())->method('getDocumentMap')
             ->with('some_document', MapInterface::TYPE_SOURCE)
-            ->will($this->returnValue('some_dest_document'));
+            ->willReturn('some_dest_document');
         $this->destination->expects($this->once())->method('deleteDocumentBackup')->with('some_dest_document');
         $this->helper->deleteBackups();
     }
@@ -304,16 +304,16 @@ class HelperTest extends \PHPUnit\Framework\TestCase
             ->expects($this->once())
             ->method('from')
             ->with($eavEntityTypeTable, ['entity_type_code', 'entity_type_id'])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->select
             ->expects($this->once())
             ->method('getAdapter')
-            ->will($this->returnValue($this->pdoMysql));
+            ->willReturn($this->pdoMysql);
         $this->pdoMysql
             ->expects($this->once())
             ->method('fetchPairs')
             ->with($this->select)
-            ->will($this->returnValue($entityTypesCodeToId));
+            ->willReturn($entityTypesCodeToId);
         $this->assertEquals($clearedSourceRecords, $this->helper->clearIgnoredAttributes($allSourceRecords));
     }
 }

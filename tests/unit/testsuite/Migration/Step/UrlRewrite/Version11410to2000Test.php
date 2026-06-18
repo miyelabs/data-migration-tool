@@ -82,7 +82,7 @@ class Version11410to2000Test extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->progress = $this->createPartialMock(
             \Migration\App\ProgressBar\LogLevelProcessor::class,

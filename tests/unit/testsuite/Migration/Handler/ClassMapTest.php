@@ -22,7 +22,7 @@ class ClassMapTest extends \PHPUnit\Framework\TestCase
         );
         $record->expects($this->once())->method('getValue')->with($fieldName)->willReturn($classOldFashion);
         $record->expects($this->once())->method('setValue')->with($fieldName, $classNewStyle);
-        $record->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $record->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $record2 = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()
             ->getMock();

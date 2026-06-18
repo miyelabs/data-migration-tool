@@ -52,7 +52,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->logger = $this->createPartialMock(
             \Migration\Logger\Logger::class,
@@ -117,12 +117,12 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
 
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $structure->expects($this->any())->method('getFields')->will($this->returnValue($fields));
+        $structure->expects($this->any())->method('getFields')->willReturn($fields);
 
         $document = $this->getMockBuilder(\Migration\ResourceModel\Document::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $document->expects($this->any())->method('getStructure')->will($this->returnValue($structure));
+        $document->expects($this->any())->method('getStructure')->willReturn($structure);
 
         $this->map->expects($this->once())->method('getDocumentMap')->with('document1')->willReturn('document2');
         $this->source->expects($this->once())->method('getRecordsCount')->willReturn(3);

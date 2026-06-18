@@ -49,7 +49,7 @@ class DestinationTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $adapterConfigs = ['resourceType' => 'destination'];
         $this->config = $this->createPartialMock(
@@ -67,7 +67,7 @@ class DestinationTest extends \PHPUnit\Framework\TestCase
         $this->adapterFactory->expects($this->once())
             ->method('create')
             ->with($adapterConfigs)
-            ->will($this->returnValue($this->adapter));
+            ->willReturn($this->adapter);
         $this->documentFactory = $this->createMock(\Migration\ResourceModel\DocumentFactory::class);
         $this->structureFactory = $this->createMock(\Migration\ResourceModel\StructureFactory::class);
         $this->documentCollection = $this->createMock(\Migration\ResourceModel\Document\Collection::class);
@@ -99,11 +99,11 @@ class DestinationTest extends \PHPUnit\Framework\TestCase
         $this->adapter->expects($this->at(0))
             ->method('insertRecords')
             ->with($prefix . $resourceName, [['data' => 'value1'], ['data' => 'value2'], ['data' => 'value3']])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
         $this->adapter->expects($this->at(1))
             ->method('insertRecords')
             ->with($prefix . $resourceName, [['data' => 'value4']])
-            ->will($this->returnSelf());
+            ->willReturnSelf();
 
         $records = $this->createMock(\Migration\ResourceModel\Record\Collection::class);
         $records->expects($this->any())
@@ -116,7 +116,7 @@ class DestinationTest extends \PHPUnit\Framework\TestCase
                     \Migration\ResourceModel\Record::class,
                     ['getData']
                 );
-                $record->expects($this->once())->method('getData')->will($this->returnValue($data));
+                $record->expects($this->once())->method('getData')->willReturn($data);
                 return $record;
             });
         $records->expects($this->any())

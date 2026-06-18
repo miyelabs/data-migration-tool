@@ -78,7 +78,7 @@ class AbstractMigrateCommand extends Command
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDefinition([
             new InputArgument(
@@ -110,7 +110,7 @@ class AbstractMigrateCommand extends Command
      * @throws Exception
      * @return void
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
 
         $config = $input->getArgument(self::INPUT_KEY_CONFIG);

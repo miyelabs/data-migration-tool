@@ -42,9 +42,9 @@ class ConvertTest extends \PHPUnit\Framework\TestCase
             \Migration\ResourceModel\Record::class,
             ['setValue', 'getValue', 'getFields']
         );
-        $record->expects($this->once())->method('getValue')->will($this->returnValue($initialValue));
+        $record->expects($this->once())->method('getValue')->willReturn($initialValue);
         $record->expects($this->once())->method('setValue')->with($fieldName, $processedValue);
-        $record->expects($this->any())->method('getFields')->will($this->returnValue([$fieldName]));
+        $record->expects($this->any())->method('getFields')->willReturn([$fieldName]);
 
         $record2 = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()

@@ -48,7 +48,7 @@ class FileHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->file = $this->getMockBuilder(\Magento\Framework\Filesystem\Driver\File::class)
             ->disableOriginalConstructor()

@@ -62,7 +62,7 @@ class DeltaTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->source = $this->createMock(\Migration\ResourceModel\Source::class);
         $this->logger = $this->createMock(\Migration\Logger\Logger::class);

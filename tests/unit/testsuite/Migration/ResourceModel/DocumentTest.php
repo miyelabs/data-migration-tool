@@ -25,7 +25,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->structure = $this->createMock(\Migration\ResourceModel\Structure::class);
         $this->recordCollectionFactory = $this->getMockBuilder(\Migration\ResourceModel\Record\CollectionFactory::class)
@@ -51,7 +51,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
                 'structure' => $this->structure,
                 'documentName' => 'test_document',
             ]))
-            ->will($this->returnValue($recordCollection));
+            ->willReturn($recordCollection);
 
         $this->assertSame($recordCollection, $this->document->getRecords());
     }

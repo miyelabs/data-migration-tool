@@ -38,7 +38,7 @@ class InitialDataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->map = $this->getMockBuilder(\Migration\Reader\Map::class)->disableOriginalConstructor()
             ->setMethods([])

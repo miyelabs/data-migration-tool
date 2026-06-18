@@ -30,7 +30,7 @@ class ConvertModelTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->classMap = $this->getMockBuilder(\Migration\Reader\ClassMap::class)->setMethods(['convertClassName'])
             ->disableOriginalConstructor()
@@ -57,11 +57,11 @@ class ConvertModelTest extends \PHPUnit\Framework\TestCase
 
         $this->classMap->expects($this->once())->method('convertClassName')
             ->with('some\class_name')
-            ->will($this->returnValue('Some\Class\Name'));
+            ->willReturn('Some\Class\Name');
 
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$this->fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$this->fieldName]);
         $recordToHandle->expects($this->once())->method('getValue')->with($this->fieldName)
-            ->will($this->returnValue('some\class_name'));
+            ->willReturn('some\class_name');
         $recordToHandle->expects($this->once())->method('setValue')->with($this->fieldName, 'Some\Class\Name');
 
         $this->handler->handle($recordToHandle, $oppositeRecord);
@@ -81,13 +81,13 @@ class ConvertModelTest extends \PHPUnit\Framework\TestCase
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
-        $oppositeRecord->expects($this->once())->method('getValue')->will($this->returnValue('Some\Class\Name'));
+        $oppositeRecord->expects($this->once())->method('getValue')->willReturn('Some\Class\Name');
 
         $this->classMap->expects($this->once())->method('convertClassName');
 
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$this->fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$this->fieldName]);
         $recordToHandle->expects($this->once())->method('getValue')->with($this->fieldName)
-            ->will($this->returnValue(null));
+            ->willReturn(null);
         $recordToHandle->expects($this->once())->method('setValue')->with($this->fieldName, 'Some\Class\Name');
 
         $this->handler->handle($recordToHandle, $oppositeRecord);

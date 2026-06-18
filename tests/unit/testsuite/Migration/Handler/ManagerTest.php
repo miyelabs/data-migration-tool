@@ -20,7 +20,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->objectManager = $this->createPartialMock(
             \Magento\Framework\ObjectManager\ObjectManager::class,
@@ -42,7 +42,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
             \Migration\Handler\SetValue::class,
             ['setField']
         );
-        $this->objectManager->expects($this->any())->method('create')->will($this->returnValue($handler));
+        $this->objectManager->expects($this->any())->method('create')->willReturn($handler);
         $handler->expects($this->once())->method('setField')->with($field);
         $this->manager->initHandler($field, $handlerConfig);
         $this->assertEquals($handler, $this->manager->getHandler($field));
@@ -62,7 +62,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
             \Migration\Handler\SetValue::class,
             ['setField']
         );
-        $this->objectManager->expects($this->any())->method('create')->will($this->returnValue($handler));
+        $this->objectManager->expects($this->any())->method('create')->willReturn($handler);
         $handler->expects($this->once())->method('setField')->with($field);
         $this->manager->initHandler($field, $handlerConfig, $handlerKey);
         $this->assertEquals($handler, $this->manager->getHandler($handlerKey));
@@ -82,7 +82,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
             \Migration\Handler\SetValue::class,
             ['setField']
         );
-        $this->objectManager->expects($this->once())->method('create')->will($this->returnValue($handler));
+        $this->objectManager->expects($this->once())->method('create')->willReturn($handler);
         $handler->expects($this->once())->method('setField')->with($field);
         $this->manager->initHandler($field, $handlerConfig);
         $this->assertEquals(null, $this->manager->getHandler('non_existent_field'));
@@ -120,7 +120,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $invalidHandler = $this->getMockBuilder(\Migration\Migration::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->objectManager->expects($this->once())->method('create')->will($this->returnValue($invalidHandler));
+        $this->objectManager->expects($this->once())->method('create')->willReturn($invalidHandler);
         $this->expectException('\Exception');
         $this->expectExceptionMessage("'Migration\\Migration' is not correct handler.");
         $this->manager->initHandler('somefield', $handlerConfig);

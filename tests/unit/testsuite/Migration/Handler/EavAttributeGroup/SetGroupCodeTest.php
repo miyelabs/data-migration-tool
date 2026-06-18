@@ -43,7 +43,7 @@ class SetGroupCodeTest extends \PHPUnit\Framework\TestCase
             ->method('getGroupCodeMap')
             ->with($groupName, $entityType)
             ->willReturn($groupCode);
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $recordToHandle->expects($this->any())->method('getValue')->willReturnMap(
             [
                 ['attribute_group_name', $groupName],

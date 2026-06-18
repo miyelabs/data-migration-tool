@@ -32,7 +32,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->groups = $this->getMockBuilder(\Migration\Reader\Groups::class)
             ->disableOriginalConstructor()

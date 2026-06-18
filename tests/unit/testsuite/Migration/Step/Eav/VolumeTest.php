@@ -53,7 +53,7 @@ class VolumeTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->initialData = $this->getMockBuilder(\Migration\Step\Eav\InitialData::class)->disableOriginalConstructor()
             ->setMethods(['getAttributes', 'getAttributeSets', 'getAttributeGroups'])

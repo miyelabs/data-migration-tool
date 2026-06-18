@@ -21,7 +21,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
 
         $this->pdoMysql = $this->getMockBuilder(\Magento\Framework\DB\Adapter\Pdo\Mysql::class)
@@ -204,7 +204,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $this->pdoMysql->expects($this->once())->method('createTableByDdl')
             ->with('source_table', 'destination_table')
-            ->will($this->returnValue($table));
+            ->willReturn($table);
         $this->adapterMysql->getTableDdlCopy('source_table', 'destination_table');
     }
 
@@ -217,7 +217,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
             ->setMethods(['getName'])
             ->disableOriginalConstructor()
             ->getMock();
-        $table->expects($this->exactly(2))->method('getName')->will($this->returnValue('some_name'));
+        $table->expects($this->exactly(2))->method('getName')->willReturn('some_name');
         $this->pdoMysql->expects($this->once())->method('dropTable')->with('some_name');
         $this->pdoMysql->expects($this->once())->method('createTable')->with($table);
         $this->pdoMysql->expects($this->once())->method('resetDdlCache')->with('some_name');
@@ -235,14 +235,14 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
         $table = $this->getMockBuilder(\Magento\Framework\DB\Ddl\Table::class)->disableOriginalConstructor()
             ->setMethods(['getName'])
             ->getMock();
-        $table->expects($this->any())->method('getName')->will($this->returnValue('migration_backup_document_name'));
+        $table->expects($this->any())->method('getName')->willReturn('migration_backup_document_name');
         $select = $this->getMockBuilder(\Magento\Framework\DB\Select::class)->disableOriginalConstructor()
             ->setMethods(['from'])->getMock();
         $select->expects($this->once())->method('from')->with($documentName)->willReturn($select);
 
         $this->pdoMysql->expects($this->once())->method('createTableByDdl')
             ->with($documentName, $backupDocumentName)
-            ->will($this->returnValue($table));
+            ->willReturn($table);
         $this->pdoMysql->expects($this->once())->method('isTableExists')->willReturn(false);
         $this->pdoMysql->expects($this->once())->method('dropTable')->with($backupDocumentName);
         $this->pdoMysql->expects($this->once())->method('createTable')->with($table);

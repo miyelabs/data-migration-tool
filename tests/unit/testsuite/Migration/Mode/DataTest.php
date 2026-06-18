@@ -36,7 +36,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->stepList = $this->getMockBuilder(\Migration\App\Mode\StepList::class)->disableOriginalConstructor()
             ->setMethods(['getSteps'])
@@ -75,7 +75,7 @@ class DataTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Migration\Exception::class);
         $this->expectExceptionMessage('Integrity Check failed');
         $step = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $step->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $step->expects($this->once())->method('perform')->willReturn(false);
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
         $this->stepList->expects($this->once())->method('getSteps')
@@ -91,10 +91,10 @@ class DataTest extends \PHPUnit\Framework\TestCase
     public function testRunStepsVolumeFail()
     {
         $stepData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepData->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stepData->expects($this->once())->method('perform')->willReturn(true);
 
         $stepVolume = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stepVolume->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $stepVolume->expects($this->once())->method('perform')->willReturn(false);
 
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
@@ -113,9 +113,9 @@ class DataTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\Migration\Exception::class);
         $this->expectExceptionMessage('Data Migration failed');
         $stageIntegrity = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stageIntegrity->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stageIntegrity->expects($this->once())->method('perform')->willReturn(true);
         $stageData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stageData->expects($this->once())->method('perform')->will($this->returnValue(false));
+        $stageData->expects($this->once())->method('perform')->willReturn(false);
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
         $this->progress->expects($this->any())->method('reset')->with($stageData);
@@ -131,11 +131,11 @@ class DataTest extends \PHPUnit\Framework\TestCase
     public function testRunStepsSuccess()
     {
         $stageIntegrity = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stageIntegrity->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stageIntegrity->expects($this->once())->method('perform')->willReturn(true);
         $stageData = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stageData->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stageData->expects($this->once())->method('perform')->willReturn(true);
         $stageVolume = $this->getMockBuilder(\Migration\App\Step\StageInterface::class)->getMock();
-        $stageVolume->expects($this->once())->method('perform')->will($this->returnValue(true));
+        $stageVolume->expects($this->once())->method('perform')->willReturn(true);
         $this->progress->expects($this->any())->method('saveResult')->willReturnSelf();
         $this->progress->expects($this->any())->method('isCompleted')->willReturn(false);
         $this->logger->expects($this->at(0))->method('info')->with("started");

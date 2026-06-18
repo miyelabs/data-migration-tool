@@ -60,7 +60,7 @@ class Version191to2000Test extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->logger = $this->createPartialMock(
             \Migration\Logger\Logger::class,

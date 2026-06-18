@@ -13,7 +13,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = new Logger();
     }
@@ -41,7 +41,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->setMethods(['handle'])
             ->getMock();
-        $consoleHandler->expects($this->any())->method('handle')->will($this->returnValue(true));
+        $consoleHandler->expects($this->any())->method('handle')->willReturn(true);
         $this->logger->pushHandler($consoleHandler);
         $this->logger->addRecord(\Monolog\Logger::INFO, $infoMessage);
         $this->logger->addRecord(\Monolog\Logger::ERROR, $errorMessage);

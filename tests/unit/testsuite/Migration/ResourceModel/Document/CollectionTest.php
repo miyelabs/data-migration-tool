@@ -20,14 +20,14 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $document1 = $this->createMock(\Migration\ResourceModel\Document::class);
-        $document1->expects($this->any())->method('getName')->will($this->returnValue('Doc1'));
+        $document1->expects($this->any())->method('getName')->willReturn('Doc1');
         $document2 = $this->createMock(\Migration\ResourceModel\Document::class);
-        $document2->expects($this->any())->method('getName')->will($this->returnValue('Doc2'));
+        $document2->expects($this->any())->method('getName')->willReturn('Doc2');
         $document3 = $this->createMock(\Migration\ResourceModel\Document::class);
-        $document3->expects($this->any())->method('getName')->will($this->returnValue('Doc3'));
+        $document3->expects($this->any())->method('getName')->willReturn('Doc3');
         $this->data = [$document1, $document2, $document3];
         $this->documentCollection = new \Migration\ResourceModel\Document\Collection($this->data);
     }
@@ -67,7 +67,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     public function testAddDocument()
     {
         $document = $this->createMock(\Migration\ResourceModel\Document::class);
-        $document->expects($this->any())->method('getName')->will($this->returnValue('Doc4'));
+        $document->expects($this->any())->method('getName')->willReturn('Doc4');
         $this->documentCollection->addDocument($document);
         $this->assertSame($document, $this->documentCollection->getDocument('Doc4'));
     }

@@ -20,7 +20,7 @@ class SetValueTest extends \PHPUnit\Framework\TestCase
             ['setValue', 'getFields']
         );
         $record->expects($this->once())->method('setValue')->with($fieldName, $value);
-        $record->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $record->expects($this->once())->method('getFields')->willReturn([$fieldName]);
 
         $record2 = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()
@@ -41,7 +41,7 @@ class SetValueTest extends \PHPUnit\Framework\TestCase
             \Migration\ResourceModel\Record::class,
             ['getFields']
         );
-        $record->expects($this->once())->method('getFields')->will($this->returnValue([]));
+        $record->expects($this->once())->method('getFields')->willReturn([]);
         $handler = new SetValue($value);
         $record2 = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()

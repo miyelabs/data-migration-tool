@@ -66,8 +66,24 @@ class InsertValueToEntity extends AbstractHandler
             || $this->moduleList->has('Magento_CatalogStaging') === false
             ? $this->entityField
             : 'row_id';
-        $record['value_id'] = $recordToHandle->getValue($this->field);
-        $record[$entityIdName] = $recordToHandle->getValue($this->entityField);
+        $valueId = (int)$recordToHandle->getValue($this->field);
+        $entityId = (int)$recordToHandle->getValue($this->entityField);
+
+        $tableName = $this->destination->addDocumentPrefix($this->valueToEntityDocument);
+        $existing = $this->destination->getAdapter()->loadPage(
+            $tableName,
+            0,
+            1,
+            null,
+            null,
+            new \Zend_Db_Expr(sprintf('`value_id` = %d AND `%s` = %d', $valueId, $entityIdName, $entityId))
+        );
+        if (!empty($existing)) {
+            return;
+        }
+
+        $record['value_id'] = $valueId;
+        $record[$entityIdName] = $entityId;
         $this->destination->saveRecords($this->valueToEntityDocument, [$record]);
     }
 }

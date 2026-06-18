@@ -37,8 +37,8 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
 
         $recordToHandle->expects($this->any())->method('getValue')->willReturn($value);
         $recordToHandle->expects($this->any())->method('setValue')->with($fieldName, $newValue);
-        $recordToHandle->expects($this->any())->method('getFields')->will($this->returnValue([$fieldName]));
-        $recordToHandle->expects($this->any())->method('getStructure')->will($this->returnValue($structure));
+        $recordToHandle->expects($this->any())->method('getFields')->willReturn([$fieldName]);
+        $recordToHandle->expects($this->any())->method('getStructure')->willReturn($structure);
 
         $oppositeRecord = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->disableOriginalConstructor()

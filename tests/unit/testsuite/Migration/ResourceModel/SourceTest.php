@@ -64,7 +64,7 @@ class SourceTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $adapterConfigs = ['resourceType' => 'source'];
         $this->config = $this->createPartialMock(
@@ -92,7 +92,7 @@ class SourceTest extends \PHPUnit\Framework\TestCase
         $this->adapterFactory->expects($this->once())
             ->method('create')
             ->with($adapterConfigs)
-            ->will($this->returnValue($this->adapter));
+            ->willReturn($this->adapter);
         $this->documentFactory = $this->getMockBuilder(\Migration\ResourceModel\DocumentFactory::class)
             ->setMethods(['create'])
             ->disableOriginalConstructor()
@@ -209,8 +209,8 @@ class SourceTest extends \PHPUnit\Framework\TestCase
             ->method('create')
             ->with(['structure' => $this->structure, 'documentName' => $document])
             ->willReturn($this->document);
-        $this->document->expects($this->any())->method('getStructure')->will($this->returnValue($this->structure));
-        $this->structure->expects($this->any())->method('getFields')->will($this->returnValue($fields));
+        $this->document->expects($this->any())->method('getStructure')->willReturn($this->structure);
+        $this->structure->expects($this->any())->method('getFields')->willReturn($fields);
         $this->resourceSource->setLastLoadedRecord($document, $records[0]);
         $this->assertEquals($records, $this->resourceSource->getRecords($document, 0));
     }

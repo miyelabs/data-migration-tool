@@ -25,7 +25,7 @@ class ProductsInRootCatalogCleanerTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->destination = $this->createPartialMock(
             \Migration\ResourceModel\Destination::class,

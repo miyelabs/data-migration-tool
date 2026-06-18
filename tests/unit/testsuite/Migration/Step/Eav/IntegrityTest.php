@@ -65,7 +65,7 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->progress = $this->getMockBuilder(\Migration\App\ProgressBar\LogLevelProcessor::class)
             ->disableOriginalConstructor()
@@ -158,20 +158,20 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
 
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $structure->expects($this->any())->method('getFields')->will($this->returnValue($fields));
+        $structure->expects($this->any())->method('getFields')->willReturn($fields);
 
         $document = $this->getMockBuilder(\Migration\ResourceModel\Document::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $document->expects($this->any())->method('getStructure')->will($this->returnValue($structure));
+        $document->expects($this->any())->method('getStructure')->willReturn($structure);
 
-        $this->source->expects($this->any())->method('getDocument')->will($this->returnValue($document));
+        $this->source->expects($this->any())->method('getDocument')->willReturn($document);
         $this->source->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['source_document']));
+            ->willReturn(['source_document']);
 
         $this->destination->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['destination_document']));
-        $this->destination->expects($this->atLeastOnce())->method('getDocument')->will($this->returnValue($document));
+            ->willReturn(['destination_document']);
+        $this->destination->expects($this->atLeastOnce())->method('getDocument')->willReturn($document);
 
         $this->logger->expects($this->never())->method('addRecord');
         $this->readerGroups->expects($this->any())->method('getGroup')->with('documents')
@@ -196,19 +196,19 @@ class IntegrityTest extends \PHPUnit\Framework\TestCase
         ) ;
         $structure = $this->getMockBuilder(\Migration\ResourceModel\Structure::class)
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $structure->expects($this->any())->method('getFields')->will($this->returnValue($fields));
+        $structure->expects($this->any())->method('getFields')->willReturn($fields);
 
         $document = $this->getMockBuilder(\Migration\ResourceModel\Document::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $document->expects($this->any())->method('getStructure')->will($this->returnValue($structure));
+        $document->expects($this->any())->method('getStructure')->willReturn($structure);
 
         $this->source->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['source_document', 'common_document']));
+            ->willReturn(['source_document', 'common_document']);
         $this->source->expects($this->atLeastOnce())->method('getDocument')->willReturn($document);
 
         $this->destination->expects($this->atLeastOnce())->method('getDocumentList')
-            ->will($this->returnValue(['common_document']));
+            ->willReturn(['common_document']);
         $this->destination->expects($this->atLeastOnce())->method('getDocument')->willReturn($document);
 
         $this->logger->expects($this->once())->method('addRecord')

@@ -31,7 +31,7 @@ class ConditionSqlTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         /** @var Map|\PHPUnit_Framework_MockObject_MockObject $map */
         $this->map = $this->getMockBuilder(\Migration\Reader\Map::class)->disableOriginalConstructor()
@@ -50,9 +50,9 @@ class ConditionSqlTest extends \PHPUnit\Framework\TestCase
         $destination = $this->getMockBuilder(\Migration\ResourceModel\Destination::class)->disableOriginalConstructor()
             ->setMethods(['addDocumentPrefix'])
             ->getMock();
-        $destination->expects($this->any())->method('addDocumentPrefix')->will($this->returnCallback(function ($value) {
+        $destination->expects($this->any())->method('addDocumentPrefix')->willReturnCallback(function ($value) {
             return 'pfx_' . $value;
-        }));
+        });
 
         $this->handler = new ConditionSql($mapFactory, $this->source, $destination);
     }
@@ -73,9 +73,9 @@ class ConditionSqlTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $fieldName = 'fieldname';
-        $recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
+        $recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
         $recordToHandle->expects($this->once())->method('getValue')->with($fieldName)
-            ->will($this->returnValue('SELECT * FROM `source_some_document` LEFT JOIN `source_other_document`'));
+            ->willReturn('SELECT * FROM `source_some_document` LEFT JOIN `source_other_document`');
         $recordToHandle->expects($this->once())->method('setValue')
             ->with($fieldName, 'SELECT * FROM `pfx_dest_some_document` LEFT JOIN `pfx_dest_other_document`');
 
@@ -88,8 +88,8 @@ class ConditionSqlTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->source->expects($this->once())->method('getDocumentList')
-            ->will($this->returnValue(['source_some_document', 'source_other_document', 'source_ignored_document']));
-        $this->source->expects($this->any())->method('addDocumentPrefix')->will($this->returnArgument(0));
+            ->willReturn(['source_some_document', 'source_other_document', 'source_ignored_document']);
+        $this->source->expects($this->any())->method('addDocumentPrefix')->willReturnArgument(0);
 
         $this->handler->setField($fieldName);
         $this->handler->handle($recordToHandle, $oppositeRecord);

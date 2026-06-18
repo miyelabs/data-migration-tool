@@ -12,7 +12,7 @@ class ItemOptionTest extends \PHPUnit\Framework\TestCase
      */
     protected $model;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->model = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['setValue', 'getValue', 'getFields', 'getData'])

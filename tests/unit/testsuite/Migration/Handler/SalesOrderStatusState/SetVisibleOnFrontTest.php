@@ -25,7 +25,7 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->recordToHandle = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['getValue', 'setValue', 'getFields'])
@@ -41,8 +41,8 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
     public function testHandleInitiallyInvisible()
     {
         $fieldName = 'visible_on_front';
-        $this->recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
-        $this->recordToHandle->expects($this->any())->method('getValue')->will($this->returnCallback(function ($value) {
+        $this->recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
+        $this->recordToHandle->expects($this->any())->method('getValue')->willReturnCallback(function ($value) {
             switch ($value) {
                 case 'status':
                     return 'pending_ogone';
@@ -52,7 +52,7 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
                     break;
             }
             return '';
-        }));
+        });
         $this->recordToHandle->expects($this->once())->method('setValue')->with($fieldName, 0);
 
         $handler = new SetVisibleOnFront();
@@ -66,8 +66,8 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
     public function testHandleNotVisibleStates()
     {
         $fieldName = 'visible_on_front';
-        $this->recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
-        $this->recordToHandle->expects($this->any())->method('getValue')->will($this->returnCallback(function ($value) {
+        $this->recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
+        $this->recordToHandle->expects($this->any())->method('getValue')->willReturnCallback(function ($value) {
             switch ($value) {
                 case 'status':
                     return 'some_my_status';
@@ -77,7 +77,7 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
                     break;
             }
             return '';
-        }));
+        });
         $this->recordToHandle->expects($this->once())->method('setValue')->with($fieldName, 0);
 
         $handler = new SetVisibleOnFront();
@@ -93,8 +93,8 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
     public function testHandleVisibleState($state)
     {
         $fieldName = 'visible_on_front';
-        $this->recordToHandle->expects($this->once())->method('getFields')->will($this->returnValue([$fieldName]));
-        $this->recordToHandle->expects($this->any())->method('getValue')->will($this->returnCallback(
+        $this->recordToHandle->expects($this->once())->method('getFields')->willReturn([$fieldName]);
+        $this->recordToHandle->expects($this->any())->method('getValue')->willReturnCallback(
             function ($value) use ($state) {
                 switch ($value) {
                     case 'status':
@@ -106,7 +106,7 @@ class SetVisibleOnFrontTest extends \PHPUnit\Framework\TestCase
                 }
                 return '';
             }
-        ));
+        );
         $this->recordToHandle->expects($this->once())->method('setValue')->with($fieldName, 1);
 
         $handler = new SetVisibleOnFront();

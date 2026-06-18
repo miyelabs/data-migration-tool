@@ -23,7 +23,7 @@ class GroupsTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->validationState = $this->getMockBuilder(\Magento\Framework\App\Arguments\ValidationState::class)
             ->disableOriginalConstructor()

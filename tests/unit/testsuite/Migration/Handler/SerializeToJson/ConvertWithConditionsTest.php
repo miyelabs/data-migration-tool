@@ -22,7 +22,7 @@ class ConvertWithConditionsTest extends \PHPUnit\Framework\TestCase
      */
     protected $documentIdField;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->model = $this->getMockBuilder(\Migration\ResourceModel\Record::class)
             ->setMethods(['setValue', 'getValue', 'getFields', 'getData', 'getDocument'])
