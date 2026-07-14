@@ -40,7 +40,7 @@ class SetValue extends AbstractHandler implements HandlerInterface
                 case '+':
                     $value = $valueStored + $value;
                     break;
-                case '-';
+                case '-':
                     $value = $valueStored - $value;
                     break;
                 default:
